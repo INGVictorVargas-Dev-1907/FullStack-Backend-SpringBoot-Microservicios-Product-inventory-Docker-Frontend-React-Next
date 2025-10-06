@@ -13,6 +13,7 @@ Aplicación Next.js 15 + React 19 + TypeScript para la gestión de inventarios y
 Este frontend se comunica con los microservicios de Products e Inventory, desplegados con Spring Boot y Docker.
 
 
+## Backend  Backend — Prueba Técnica Full Stack (Products + Inventory)
 ---
 
 ## 🚀 Tecnologías
