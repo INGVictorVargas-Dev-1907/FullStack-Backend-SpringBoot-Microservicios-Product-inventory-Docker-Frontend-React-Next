@@ -28,21 +28,6 @@ Este frontend se comunica con los microservicios de Products e Inventory, desple
 
 ---
 
-## Índice
-- [Cómo ejecutar (rápido)](#cómo-ejecutar-rápido)
-- [Estructura del proyecto](#estructura-del-proyecto)
-- [Diagramas](#diagramas)
-- [Endpoints y ejemplos cURL](#endpoints-y-ejemplos-curl)
-- [Seguridad entre servicios](#seguridad-entre-servicios)
-- [Resiliencia y healthchecks](#resiliencia-y-healthchecks)
-- [Logs estructurados](#logs-estructurados)
-- [Tests y cobertura](#tests-y-cobertura)
-- [Guía técnica para desarrolladores](#guía-técnica-para-desarrolladores)
-- [Checklist de requisitos](#checklist-de-requisitos)
-- [Troubleshooting rápido](#troubleshooting-rápido)
-
----
-
 ## 1. Cómo ejecutar (rápido)
 
 ### Opcion 1: Ejecutar Localmente los microservicios
