@@ -1,0 +1,74 @@
+# products-service/src/main/resources/application.yml.template
+# ----------------------------------------------------
+# INSTRUCCIONES: Copia este archivo a 'application.yml' 
+# y crea el archivo '.env' para definir los valores reales.
+# ----------------------------------------------------
+
+server:
+  # Puerto interno de la aplicación.
+  port: ${SERVER_PORT:8080}
+
+spring:
+  datasource:
+    # URL de la BD. Obliga a usar la variable de entorno para la conexión Docker.
+    url: ${SPRING_DATASOURCE_URL:jdbc:postgresql://localhost:5432/fullstack_inventory}
+    # Credenciales por defecto NO funcionales, para indicar que son placeholders.
+    username: ${SPRING_DATASOURCE_USERNAME:DB_USER_REQUIRED} 
+    password: ${SPRING_DATASOURCE_PASSWORD:DB_PASSWORD_REQUIRED}
+    driver-class-name: org.postgresql.Driver
+  jpa:
+    hibernate:
+      ddl-auto: update
+    show-sql: true
+    properties:
+      hibernate:
+        format_sql: true
+    database-platform: org.hibernate.dialect.PostgreSQLDialect
+
+# ------------------------------------------
+# CONFIGURACIÓN DE SEGURIDAD INTERNA (ENTRADA)
+# ------------------------------------------
+app:
+  security:
+    # Clave de seguridad interna. Se usa un placeholder genérico.
+    inventory-api-key: ${INVENTORY_API_KEY:INVENTORY_API_KEY_REQUIRED}
+
+# ---------------------------------------------
+# CONFIGURACIÓN DE CLIENTE (SALIDA - Products Service)
+# ---------------------------------------------
+products:
+  # Base URL del servicio de productos. Usar nombre del servicio Docker.
+  base-url: ${PRODUCTS_BASE_URL:http://products-service:8080}
+  # Clave para autenticarse en el servicio de productos.
+  api-key: ${PRODUCTS_API_KEY:PRODUCTS_API_KEY_REQUIRED}
+
+# Exponer healthchecks y Swagger
+management:
+  endpoints:
+    web:
+      exposure:
+        include: health,info
+  endpoint:
+    health:
+      show-details: always
+
+springdoc:
+  api-docs:
+    path: /v3/api-docs
+  swagger-ui:
+    path: /swagger-ui.html
+
+# ---------------------------------------------------
+# CONFIGURACIÓN DE RESILIENCE4J (para ProductsClient)
+# ----------------------------------------------------
+resilience4j:
+  # ... (El resto de la configuración de Resilience4J no es sensible y se mantiene)
+  timelimiter:
+    instances:
+      productsClient:
+        timeoutDuration: 5s 
+  retry:
+    instances:
+      productsClient:
+        maxAttempts: 3 
+        waitDuration: 1s

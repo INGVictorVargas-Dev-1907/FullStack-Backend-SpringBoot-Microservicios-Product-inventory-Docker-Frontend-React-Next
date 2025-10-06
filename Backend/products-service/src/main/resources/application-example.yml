@@ -1,0 +1,58 @@
+# products-service/src/main/resources/application.yml
+# ----------------------------------------------------
+# ATENCIÓN: Todos los valores sensibles deben ser definidos
+# por variables de entorno (como el archivo .env)
+# ----------------------------------------------------
+
+server:
+  port: ${SERVER_PORT:8080}
+
+spring:
+  datasource:
+    # Estos valores por defecto son placeholders NO FUNCIONALES
+    url: ${SPRING_DATASOURCE_URL:ERROR_URL_NOT_DEFINED}
+    username: ${SPRING_DATASOURCE_USERNAME:ERROR_USER_NOT_DEFINED}
+    password: ${SPRING_DATASOURCE_PASSWORD:ERROR_PASSWORD_NOT_DEFINED}
+    driver-class-name: org.postgresql.Driver
+  
+  jpa:
+    hibernate:
+      ddl-auto: update 
+    show-sql: true 
+    properties:
+      hibernate:
+        format_sql: true
+    database-platform: org.hibernate.dialect.PostgreSQLDialect
+
+app:
+  security:
+    # La API Key es un placeholder que debe definirse
+    internal-api-key: ${INTERNAL_API_KEY:ERROR_API_KEY_NOT_DEFINED} 
+
+# ----------------------------------------------------
+# 🩺 GESTIÓN DE LA APLICACIÓN (Spring Boot Actuator)
+# ----------------------------------------------------
+management:
+  endpoints:
+    web:
+      exposure:
+        # Expone health y info (para checks de estado de la app)
+        include: health,info
+  endpoint:
+    health:
+      show-details: always
+
+# ----------------------------------------------------
+# 📄 DOCUMENTACIÓN API (SpringDoc / Swagger)
+# ----------------------------------------------------
+springdoc:
+  api-docs:
+    path: /v3/api-docs # Ruta de la especificación JSON/YAML de OpenAPI
+  swagger-ui:
+    path: /swagger-ui.html # Ruta de la interfaz web de Swagger UI
+    # CONFIGURACIÓN CLAVE PARA FIJAR LOS VALORES DE PAGINACIÓN (Pageable)
+  defaults:
+    pageable:
+      page: 0           # Valor por defecto para 'page'
+      size: 10          # Valor por defecto para 'size'
+      sort: name,asc   # VALOR POR DEFECTO PARA 'sort' (Evita el 'string' y el error 500)

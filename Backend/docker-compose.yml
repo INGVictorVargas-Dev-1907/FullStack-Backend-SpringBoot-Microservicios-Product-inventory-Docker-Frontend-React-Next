@@ -1,0 +1,78 @@
+version: "3.8"
+
+services:
+  # Base de datos para Products
+  products-db:
+    image: postgres:15
+    container_name: products-db
+    environment:
+      POSTGRES_USER: postgres
+      POSTGRES_PASSWORD: 1907
+      POSTGRES_DB: fullstack_product
+    ports:
+      - "5433:5432" # Puerto host 5433
+    volumes:
+      - products_data:/var/lib/postgresql/data
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U postgres"]
+      interval: 5s
+      timeout: 5s
+      retries: 5
+
+  # Products Service
+  products:
+    build: ./products-service
+    container_name: products-service
+    # Leemos las variables de entorno desde el archivo .env
+    env_file: ./products-service/.env
+    ports:
+      - "8081:8080" # El servicio expone 8081 al host
+    depends_on:
+      products-db:
+        condition: service_healthy
+
+  # Base de datos para Inventory
+  inventory-db:
+    image: postgres:15
+    container_name: inventory-db
+    environment:
+      POSTGRES_USER: postgres
+      POSTGRES_PASSWORD: 1907
+      POSTGRES_DB: fullstack_inventory
+    ports:
+      - "5434:5432" # Puerto host 5434
+    volumes:
+      - inventory_data:/var/lib/postgresql/data
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U postgres"]
+      interval: 5s
+      timeout: 5s
+      retries: 5
+
+  # Inventory Service
+  inventory:
+    build: ./inventory-service
+    container_name: inventory-service
+    # Leemos las variables de entorno desde el archivo .env
+    env_file: ./inventory-service/.env
+    ports:
+      - "8082:8080" # El servicio expone 8082 al host
+    depends_on:
+      inventory-db:
+        condition: service_healthy
+      products:
+        condition: service_started
+
+  # Adminer
+  adminer:
+    image: adminer
+    restart: always
+    ports:
+      - "8080:8080"
+    depends_on:
+      - products-db
+      - inventory-db
+
+volumes:
+  products_data:
+  inventory_data:

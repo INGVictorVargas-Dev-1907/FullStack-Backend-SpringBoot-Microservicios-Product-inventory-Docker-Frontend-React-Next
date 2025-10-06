@@ -1,0 +1,82 @@
+# --------------------------------------------------------------------------- #
+# .gitignore para Proyectos Spring Boot con Maven/Gradle y Docker Compose
+# --------------------------------------------------------------------------- #
+
+### ARCHIVOS DE CONSTRUCCIÓN Y GENERADOS ###
+
+# Directorios generados por Maven/Gradle
+/target/
+/build/
+
+# Archivos de empaquetado (JAR/WAR/ZIP)
+*.jar
+*.war
+*.zip
+*.tar.gz
+
+# Logs de la aplicación
+*.log
+/logs/
+
+# Archivos de depuración y caché de pruebas
+/test-output/
+/junit-platform.properties
+
+# Archivos temporales
+*~
+
+### ARCHIVOS SENSIBLES Y DE CONFIGURACIÓN LOCAL ###
+
+# Variables de entorno (CRÍTICO para contraseñas de BD y API Keys)
+.env
+.env.local
+.env.*.local
+
+# Archivos de Propiedades locales que pueden contener secretos (si existen)
+application-local.properties
+application.yml
+
+# Archivos de seguridad generados o llaves (si las usas)
+*.key
+*.pem
+*.pfx
+
+### CACHÉ DE IDES (Entornos de Desarrollo) ###
+
+# Intellij IDEA
+.idea/
+*.iws
+*.iml
+*.ipr
+
+# Eclipse
+.classpath
+.project
+.settings/
+bin/
+
+# VS Code
+.vscode/
+
+# NetBeans
+/nbproject/private/
+/build/
+/nbbuild/
+/dist/
+/nbdist/
+/.cachedir/
+# Archivos de sesión de NetBeans (si los usas)
+*.*(session.xml|build-impl.xml)
+
+### DOCKER Y COMPOSICIÓN ###
+
+# Caché de Docker ignorando archivos temporales
+.dockerignore
+
+# Evitar subir volúmenes de datos locales de Docker (si no se gestionan en la raíz)
+# Si tus volúmenes están en la raíz del proyecto, asegúrate que no los subas.
+inventory_data/
+products_data/
+
+### MACOS ###
+.DS_Store
