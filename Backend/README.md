@@ -1,4 +1,4 @@
-# Backend — Prueba Técnica Full Stack (Products + Inventory) y # 🚀 Frontend – Inventory Manager
+# Backend — Prueba Técnica Full Stack (Products + Inventory)
 
 ## Resumen rápido
 Repositorio backend compuesto por dos microservicios Java + Spring Boot:
@@ -8,9 +8,6 @@ backend/products-service/ → Gestor de productos (CRUD).
 backend/inventory-service/ → Gestor de inventario que consulta products-service.
 
 Cada microservicio tiene su propia base de datos PostgreSQL (aislamiento), Docker, healthchecks, documentación OpenAPI y tests con JaCoCo. Se implementaron mecanismos de resiliencia, autenticación interna entre servicios (X-API-KEY) y logs estructurados listos para producción.
-
-Aplicación Next.js 15 + React 19 + TypeScript para la gestión de inventarios y productos.
-Este frontend se comunica con los microservicios de Products e Inventory, desplegados con Spring Boot y Docker.
 
 
 ---
