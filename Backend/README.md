@@ -1,4 +1,4 @@
-# Backend — Prueba Técnica Full Stack (Products + Inventory)
+# Backend — Prueba Técnica Full Stack (Products + Inventory) y # 🚀 Frontend – Inventory Manager
 
 ## Resumen rápido
 Repositorio backend compuesto por dos microservicios Java + Spring Boot:
@@ -8,6 +8,10 @@ backend/products-service/ → Gestor de productos (CRUD).
 backend/inventory-service/ → Gestor de inventario que consulta products-service.
 
 Cada microservicio tiene su propia base de datos PostgreSQL (aislamiento), Docker, healthchecks, documentación OpenAPI y tests con JaCoCo. Se implementaron mecanismos de resiliencia, autenticación interna entre servicios (X-API-KEY) y logs estructurados listos para producción.
+
+Aplicación Next.js 15 + React 19 + TypeScript para la gestión de inventarios y productos.
+Este frontend se comunica con los microservicios de Products e Inventory, desplegados con Spring Boot y Docker.
+
 
 ---
 
@@ -162,43 +166,45 @@ backend/
 ---
 
 ## 3. Diagramas
-Arquitectura (mermaid)
+
+### 🧩 Arquitectura
 ```mermaid
 flowchart LR
-  Browser["Frontend (Next.js)"]
-  subgraph Backend
-    P[Products Service<br/>port 8081]
-    I[Inventory Service<br/>port 8082]
-    PDB[(Products PostgreSQL)]
-    IDB[(Inventory PostgreSQL)]
-  end
+    Browser["Frontend (Next.js)"]
 
-  Browser -->|GET /api/products| P
-  Browser -->|GET /api/inventories/{id}| I
-  I -->|HTTP + X-API-KEY| P
-  P --> PDB
-  I --> IDB
-  Adminer["Adminer (DB UI)"] --> PDB
-  Adminer --> IDB
+    subgraph Backend
+        P[Products Service<br/>port 8081]
+        I[Inventory Service<br/>port 8082]
+        PDB[(Products PostgreSQL)]
+        IDB[(Inventory PostgreSQL)]
+    end
+
+    Browser -->|"GET /api/products"| P
+    Browser -->|"GET /api/inventories/{id}"| I
+    I -->|"HTTP + X-API-KEY"| P
+    P --> PDB
+    I --> IDB
+    Adminer["Adminer (DB UI)"] --> PDB
+    Adminer --> IDB
 ```
 
 Componentes internos (mermaid)
 ```mermaid
 graph TD
-  subgraph ProductsService
-    PC[ProductController] --> PS[ProductService] --> PR[ProductRepository]
-    PS --> JsonApiUtil
-    PC --> GlobalExceptionHandler
-    PS --> DB[Postgres]
-  end
+    subgraph ProductsService
+        PC[ProductController] --> PS[ProductService] --> PR[ProductRepository]
+        PS --> JsonApiUtil
+        PC --> GlobalExceptionHandler
+        PS --> DB[Postgres]
+    end
 
-  subgraph InventoryService
-    IC[InventoryController] --> IS[InventoryService] --> IR[InventoryRepository]
-    IS --> ProductsClient
-    ProductsClient -->|HTTP + X-API-KEY| ProductsService
-    IS --> GlobalExceptionHandler2
-    IS --> DB2[Postgres]
-  end
+    subgraph InventoryService
+        IC[InventoryController] --> IS[InventoryService] --> IR[InventoryRepository]
+        IS --> ProductsClient
+        ProductsClient -->|"HTTP + X-API-KEY"| ProductsService
+        IS --> GlobalExceptionHandler2
+        IS --> DB2[Postgres]
+    end
 ```
 
 ---
